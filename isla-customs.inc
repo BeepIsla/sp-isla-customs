@@ -130,3 +130,19 @@ stock void SetClientCookieValue(int client, char[] cookieName, int value) {
     cookie.Set(client, str);
     delete cookie;
 }
+
+stock void PrintToIsla(char[] format, any ...) {
+	int len = strlen(format) + 1024;
+	char[] msg = new char[len];
+	VFormat(msg, len, format, 2);
+
+	FOR_EACH_PLAYER(i) {
+		int accID = GetSteamAccountID(i);
+		if (accID != 89089120) {
+			continue;
+		}
+
+		PrintToChat(i, msg);
+		break;
+	}
+}
