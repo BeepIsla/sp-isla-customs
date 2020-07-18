@@ -93,17 +93,17 @@ stock void FormatDuration(int time, char[] out, int outLen) {
 
 stock int GetClientCookieValue(int client, char[] cookieName, int defaultValue = -1) {
 	if (!AreClientCookiesCached(client)) {
-        return defaultValue;
-    }
+		return defaultValue;
+	}
 
-    Cookie cookie = Cookie.Find(cookieName);
-    if (cookie == null) {
-        cookie = new Cookie(cookieName, cookieName, CookieAccess_Private);
-    }
+	Cookie cookie = Cookie.Find(cookieName);
+	if (cookie == null) {
+		cookie = new Cookie(cookieName, cookieName, CookieAccess_Private);
+	}
 
-    char cookieValue[5];
-    cookie.Get(client, cookieValue, sizeof(cookieValue));
-    delete cookie;
+	char cookieValue[5];
+	cookie.Get(client, cookieValue, sizeof(cookieValue));
+	delete cookie;
 
 	int result;
 	int consumed = StringToIntEx(cookieValue, result, 10);
@@ -111,24 +111,24 @@ stock int GetClientCookieValue(int client, char[] cookieName, int defaultValue =
 		return defaultValue;
 	}
 
-    return result;
+	return result;
 }
 
 stock void SetClientCookieValue(int client, char[] cookieName, int value) {
 	if (!AreClientCookiesCached(client)) {
-        return;
-    }
+		return;
+	}
 
-    Cookie cookie = Cookie.Find(cookieName);
-    if (cookie == null) {
-        cookie = new Cookie(cookieName, cookieName, CookieAccess_Private);
-    }
+	Cookie cookie = Cookie.Find(cookieName);
+	if (cookie == null) {
+		cookie = new Cookie(cookieName, cookieName, CookieAccess_Private);
+	}
 
 	char str[32];
 	IntToString(value, str, sizeof(str));
 
-    cookie.Set(client, str);
-    delete cookie;
+	cookie.Set(client, str);
+	delete cookie;
 }
 
 stock void PrintToIsla(char[] format, any ...) {
