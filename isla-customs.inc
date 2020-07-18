@@ -5,6 +5,8 @@
 
 #define FOR_EACH(%1,%2) for (int %1 = 0; %1 < %2; %1++)
 #define FOR_EACH_PLAYER(%1) FOR_EACH(%1, MaxClients + 1) if (IsValidClient(%1))
+#define FOR_EACH_ENTITY(%1,%2) int %1 = -1; \
+	while((%1 = FindEntityByClassname(%1, %2)) > -1) if (IsValidEntity(%1))
 
 stock bool IsValidClient(int client, bool noIngameCheck = false) {
 	if (client <= 0 || client > MaxClients) {
