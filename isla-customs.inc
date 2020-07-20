@@ -8,19 +8,23 @@
 #define FOR_EACH_ENTITY(%1,%2) int %1 = -1; \
 	while((%1 = FindEntityByClassname(%1, %2)) > -1) if (IsValidEntity(%1))
 
-stock bool IsValidClient(int client, bool noIngameCheck = false) {
+stock bool IsValidClient(int client, bool noIngameCheck = false, bool noBots = false) {
 	if (client <= 0 || client > MaxClients) {
 		return false;
 	}
 
-	return IsClientConnected(client) && (noIngameCheck || IsClientInGame(client));
+	return IsClientConnected(client) && (noIngameCheck || IsClientInGame(client)) && (!noBots || !IsFakeClient(client));
 }
 
-stock int GetCurrentPlayerCount(int team = -1) {
+stock int GetCurrentPlayerCount(int team = -1, bool noBots = false) {
 	int count = 0;
 
 	FOR_EACH_PLAYER(i) {
 		if (team != -1 && GetClientTeam(i) != team) {
+			continue;
+		}
+
+		if (noBots && IsFakeClient(i)) {
 			continue;
 		}
 
@@ -30,11 +34,15 @@ stock int GetCurrentPlayerCount(int team = -1) {
 	return count;
 }
 
-stock ArrayList GetRandomPlayer(int team = -1) {
+stock ArrayList GetRandomPlayer(int team = -1, bool noBots = false) {
 	ArrayList allPlayers = new ArrayList();
 
 	FOR_EACH_PLAYER(i) {
 		if (team != -1 && GetClientTeam(i) != team) {
+			continue;
+		}
+
+		if (noBots && IsFakeClient(i)) {
 			continue;
 		}
 
@@ -48,11 +56,15 @@ stock ArrayList GetRandomPlayer(int team = -1) {
 	return client;
 }
 
-stock ArrayList GetRandomPlayers(int amount, int team = -1) {
+stock ArrayList GetRandomPlayers(int amount, int team = -1, bool noBots = false) {
 	ArrayList allPlayers = new ArrayList();
 
 	FOR_EACH_PLAYER(i) {
 		if (team != -1 && GetClientTeam(i) != team) {
+			continue;
+		}
+
+		if (noBots && IsFakeClient(i)) {
 			continue;
 		}
 
